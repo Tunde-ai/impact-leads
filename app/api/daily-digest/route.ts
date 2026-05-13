@@ -113,7 +113,7 @@ CLOSE [lead_id] $[contract_value]
     // Send email via Resend
     const emailResult = await resend.emails.send({
       from: 'signhere@signaturebytundeo.com',
-      to: 'olatunde@jamaicahousebrand.com',
+      to: 'signhere@signaturebytundeo.com',
       subject: subject,
       text: emailBody
     })

@@ -60,7 +60,7 @@ leads (
 
 ## Contact Integration
 - **Dennis** (Contractor): floridawindowanddoors@gmail.com
-- **Tunde** (Partner): olatunde@jamaicahousebrand.com
+- **Tunde** (Partner): signhere@signaturebytundeo.com
 
 ## Development
 ```bash

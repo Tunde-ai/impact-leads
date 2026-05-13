@@ -36,7 +36,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 RESEND_API_KEY
 ANTHROPIC_API_KEY
-TUNDE_EMAIL=olatunde@jamaicahousebrand.com
+TUNDE_EMAIL=signhere@signaturebytundeo.com
 DENNIS_EMAIL=floridawindowanddoors@gmail.com
 ```
 
