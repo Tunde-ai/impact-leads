@@ -79,7 +79,7 @@ Questions? Tunde at (786) 709-1027
 
     // Send email via Resend
     const emailResult = await resend.emails.send({
-      from: 'signhere@signaturebytundeo.com',
+      from: 'olatunde@jamaicahousebrand.com',
       to: 'floridawindowanddoors@gmail.com',
       subject: subject,
       text: emailBody

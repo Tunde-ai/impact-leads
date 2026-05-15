@@ -71,7 +71,7 @@ Total Commissions Earned To Date: $${totalEarned.toLocaleString()}
 ---`
 
     const emailResult = await resend.emails.send({
-      from: 'signhere@signaturebytundeo.com',
+      from: 'olatunde@jamaicahousebrand.com',
       to: 'signhere@signaturebytundeo.com',
       subject: 'Lead Closed — Commission Earned!',
       text: emailBody

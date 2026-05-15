@@ -19,7 +19,7 @@ export interface EmailTemplateProps {
 export const sendDailyDigest = async (leads: EmailTemplateProps['leads']) => {
   try {
     const data = await resend.emails.send({
-      from: 'Impact Leads <signhere@signaturebytundeo.com>',
+      from: 'Impact Leads <olatunde@jamaicahousebrand.com>',
       to: [process.env.TUNDE_EMAIL!],
       subject: `Daily Lead Report - ${new Date().toLocaleDateString()}`,
       html: `
@@ -79,7 +79,7 @@ export const alertDennis = async (lead: {
 }) => {
   try {
     const data = await resend.emails.send({
-      from: 'Impact Leads <signhere@signaturebytundeo.com>',
+      from: 'Impact Leads <olatunde@jamaicahousebrand.com>',
       to: [process.env.DENNIS_EMAIL!],
       subject: `🔥 Hot Lead Alert: ${lead.name}`,
       html: `
