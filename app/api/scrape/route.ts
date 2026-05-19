@@ -306,12 +306,14 @@ function extractCityFromText(text: string): string | undefined {
 // Support GET for testing
 export async function GET(request: NextRequest) {
   return NextResponse.json({
-    message: 'Scrape API endpoint - searches Reddit and Craigslist for Florida impact windows intent',
+    message: 'Scrape API endpoint - searches Reddit and Craigslist statewide for Florida impact windows and consultation requests',
     keywords: KEYWORDS,
     sources: [
-      'Reddit public API (search.json)',
-      'Craigslist Miami (impact windows search)'
+      'Reddit public API (search.json) - statewide Florida searches',
+      'Craigslist 10 Florida regions (Miami, Orlando, Tampa, Jacksonville, Fort Lauderdale, West Palm Beach, Gainesville, Tallahassee, Sarasota, Fort Myers)',
+      '4 search queries per region: impact windows, hurricane windows, quotes, contractors'
     ],
-    usage: 'POST to trigger scraping, runs automatically via cron every 6 hours'
+    coverage: '120+ Florida cities from coast to inland',
+    usage: 'POST to trigger scraping, runs automatically via external cron service daily'
   })
 }
