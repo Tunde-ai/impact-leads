@@ -12,13 +12,23 @@ interface ScrapedResult {
   city?: string
 }
 
-// Intent keywords for Florida impact windows
+// Intent keywords for Florida impact windows and consultation requests
 const KEYWORDS = [
   'impact windows',
   'hurricane windows',
   'window quote',
   'replace windows florida',
-  'impact doors'
+  'impact doors',
+  'window estimate florida',
+  'free window consultation',
+  'hurricane protection quote',
+  'impact window installer',
+  'window replacement estimate',
+  'storm windows florida',
+  'need window quote',
+  'looking for window contractor',
+  'window installation consultation',
+  'hurricane window estimate'
 ]
 
 export async function POST(request: NextRequest) {
@@ -75,44 +85,67 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // SOURCE 2 — CRAIGSLIST MIAMI
-    console.log('Scraping Craigslist Miami...')
+    // SOURCE 2 — CRAIGSLIST MULTIPLE FLORIDA REGIONS
+    console.log('Scraping Craigslist Florida regions...')
 
-    try {
-      const craigslistUrl = 'https://miami.craigslist.org/search/sss?query=impact+windows'
+    const craigslistRegions = [
+      { name: 'Miami', url: 'https://miami.craigslist.org' },
+      { name: 'Orlando', url: 'https://orlando.craigslist.org' },
+      { name: 'Tampa', url: 'https://tampa.craigslist.org' },
+      { name: 'Jacksonville', url: 'https://jacksonville.craigslist.org' },
+      { name: 'Fort Lauderdale', url: 'https://fortlauderdale.craigslist.org' },
+      { name: 'West Palm Beach', url: 'https://westpalm.craigslist.org' },
+      { name: 'Gainesville', url: 'https://gainesville.craigslist.org' },
+      { name: 'Tallahassee', url: 'https://tallahassee.craigslist.org' },
+      { name: 'Sarasota', url: 'https://sarasota.craigslist.org' },
+      { name: 'Fort Myers', url: 'https://fortmyers.craigslist.org' }
+    ]
 
-      const response = await fetch(craigslistUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        }
-      })
+    for (const region of craigslistRegions) {
+      try {
+        const searchQueries = ['impact+windows', 'hurricane+windows', 'window+quote', 'window+contractor']
 
-      if (response.ok) {
-        const html = await response.text()
-        const $ = cheerio.load(html)
+        for (const query of searchQueries) {
+          const craigslistUrl = `${region.url}/search/sss?query=${query}`
 
-        $('.cl-static-search-result').each((_, element) => {
-          const $element = $(element)
+          const response = await fetch(craigslistUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          })
 
-          const title = $element.find('.cl-titlebox a').text().trim()
-          const url = $element.find('.cl-titlebox a').attr('href')
-          const date = $element.find('.cl-posting-date time').attr('datetime')
-          const snippet = $element.find('.cl-posting-body').text().trim()
+          if (response.ok) {
+            const html = await response.text()
+            const $ = cheerio.load(html)
 
-          if (title && url) {
-            allResults.push({
-              title,
-              body: snippet || '',
-              url: url.startsWith('http') ? url : `https://miami.craigslist.org${url}`,
-              date: date || new Date().toISOString(),
-              platform: 'craigslist',
-              city: 'Miami'
+            $('.cl-static-search-result').each((_, element) => {
+              const $element = $(element)
+
+              const title = $element.find('.cl-titlebox a').text().trim()
+              const url = $element.find('.cl-titlebox a').attr('href')
+              const date = $element.find('.cl-posting-date time').attr('datetime')
+              const snippet = $element.find('.cl-posting-body').text().trim()
+
+              if (title && url) {
+                allResults.push({
+                  title,
+                  body: snippet || '',
+                  url: url.startsWith('http') ? url : `${region.url}${url}`,
+                  date: date || new Date().toISOString(),
+                  platform: 'craigslist',
+                  city: region.name
+                })
+              }
             })
           }
-        })
+
+          // Add delay between requests to be respectful
+          await new Promise(resolve => setTimeout(resolve, 2000))
+        }
+      } catch (error) {
+        console.error(`Error scraping Craigslist ${region.name}:`, error)
+        continue
       }
-    } catch (error) {
-      console.error('Error scraping Craigslist:', error)
     }
 
     console.log(`Found ${allResults.length} total results across all sources`)
@@ -232,13 +265,31 @@ export async function POST(request: NextRequest) {
 // Extract city from post text
 function extractCityFromText(text: string): string | undefined {
   const floridaCities = [
+    // Major Metro Areas
     'Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale', 'Tallahassee',
     'St. Petersburg', 'Hialeah', 'Port St. Lucie', 'Cape Coral', 'Pembroke Pines',
     'Hollywood', 'Miramar', 'Gainesville', 'Coral Springs', 'Brandon', 'West Palm Beach',
     'Clearwater', 'Palm Bay', 'Pompano Beach', 'Lakeland', 'Davie', 'Sunrise',
     'Boca Raton', 'Deltona', 'Plantation', 'Alafaya', 'Pine Hills', 'Kendall',
     'Coral Gables', 'Aventura', 'Homestead', 'Key West', 'Naples', 'Sarasota',
-    'Fort Myers', 'Kissimmee', 'Ocala', 'Bradenton'
+    'Fort Myers', 'Kissimmee', 'Ocala', 'Bradenton',
+    // Extended Coverage Based on Service Map
+    'Daytona Beach', 'Deerfield Beach', 'Boynton Beach', 'Delray Beach',
+    'Jupiter', 'Stuart', 'Vero Beach', 'Sebastian', 'Melbourne', 'Cocoa Beach',
+    'New Smyrna Beach', 'Ormond Beach', 'Flagler Beach', 'Palm Coast',
+    'St. Augustine', 'Green Cove Springs', 'Palatka', 'Fernandina Beach',
+    'Yulee', 'Callahan', 'Macclenny', 'Lake City', 'Live Oak', 'Madison',
+    'Monticello', 'Quincy', 'Havana', 'Crawfordville', 'Perry', 'Cross City',
+    'Chiefland', 'Williston', 'Bronson', 'Newberry', 'High Springs', 'Alachua',
+    'Starke', 'Keystone Heights', 'Interlachen', 'Hawthorne', 'Micanopy',
+    'Archer', 'Bell', 'Trenton', 'Fanning Springs', 'Old Town', 'Cedar Key',
+    'Inglis', 'Yankeetown', 'Dunnellon', 'Belleview', 'Lady Lake', 'Leesburg',
+    'Mount Dora', 'Eustis', 'Tavares', 'Clermont', 'Winter Garden', 'Apopka',
+    'Sanford', 'Altamonte Springs', 'Casselberry', 'Winter Park', 'Maitland',
+    'Longwood', 'Oviedo', 'Winter Springs', 'Geneva', 'Chuluota', 'Christmas',
+    'Titusville', 'Port Orange', 'Holly Hill', 'Ponce Inlet', 'Edgewater',
+    'New Smyrna Beach', 'Deltona', 'Orange City', 'DeBary', 'Lake Mary',
+    'Heathrow', 'Lake Helen', 'Cassadaga', 'Pierson', 'Barberville', 'Astor'
   ]
 
   const lowerText = text.toLowerCase()
