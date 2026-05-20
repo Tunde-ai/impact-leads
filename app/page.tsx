@@ -279,7 +279,7 @@ export default function FloridaImpactWindows() {
             Free quote service. A licensed Florida contractor will contact you within 24 hours.
           </p>
           <p className="text-gray-400">
-            &copy; 2024 Florida Impact Windows. All rights reserved.
+            &copy; 2026 Florida Impact Windows. All rights reserved.
           </p>
         </div>
       </footer>
