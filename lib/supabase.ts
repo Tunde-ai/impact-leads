@@ -21,52 +21,97 @@ export type Database = {
           id: string
           created_at: string
           updated_at: string
-          name: string
-          email: string
-          phone?: string
-          company?: string
-          message?: string
+          full_name: string
+          email?: string
+          phone: string
+          address: string
+          city?: string
+          zip?: string
+          window_count?: number
+          door_count?: number
+          urgency?: string
+          homeowner?: boolean
+          notes?: string
           score?: number
           scored_at?: string
-          hot_lead: boolean
+          hot_lead?: boolean
           source?: string
+          status?: string
+          contract_value?: number
+          closed_at?: string
+          commission_earned?: number
           utm_campaign?: string
           utm_source?: string
           utm_medium?: string
+          referrer_url?: string
+          content_source_id?: string
+          email_sequence_started?: string
+          review_request_started?: string
+          last_email_sent?: string
         }
         Insert: {
           id?: string
           created_at?: string
           updated_at?: string
-          name: string
-          email: string
-          phone?: string
-          company?: string
-          message?: string
+          full_name: string
+          email?: string
+          phone: string
+          address: string
+          city?: string
+          zip?: string
+          window_count?: number
+          door_count?: number
+          urgency?: string
+          homeowner?: boolean
+          notes?: string
           score?: number
           scored_at?: string
           hot_lead?: boolean
           source?: string
+          status?: string
+          contract_value?: number
+          closed_at?: string
+          commission_earned?: number
           utm_campaign?: string
           utm_source?: string
           utm_medium?: string
+          referrer_url?: string
+          content_source_id?: string
+          email_sequence_started?: string
+          review_request_started?: string
+          last_email_sent?: string
         }
         Update: {
           id?: string
           created_at?: string
           updated_at?: string
-          name?: string
+          full_name?: string
           email?: string
           phone?: string
-          company?: string
-          message?: string
+          address?: string
+          city?: string
+          zip?: string
+          window_count?: number
+          door_count?: number
+          urgency?: string
+          homeowner?: boolean
+          notes?: string
           score?: number
           scored_at?: string
           hot_lead?: boolean
           source?: string
+          status?: string
+          contract_value?: number
+          closed_at?: string
+          commission_earned?: number
           utm_campaign?: string
           utm_source?: string
           utm_medium?: string
+          referrer_url?: string
+          content_source_id?: string
+          email_sequence_started?: string
+          review_request_started?: string
+          last_email_sent?: string
         }
       }
     }
